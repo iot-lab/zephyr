@@ -1,0 +1,5 @@
+# IoT-LAB M3 board configuration
+
+config BOARD_IOTLAB_M3
+	bool "IoT-LAB M3 Board"
+	depends on SOC_STM32F103XE

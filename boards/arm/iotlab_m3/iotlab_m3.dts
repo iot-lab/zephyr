@@ -1,0 +1,107 @@
+
+/dts-v1/;
+#include <st/f1/stm32f103Xe.dtsi>
+#include <st/f1/stm32f103r(c-d-e)tx-pinctrl.dtsi>
+
+/ {
+	model = "iotlab_m3 board";
+	compatible = "st,stm32f103";
+
+	chosen {
+		zephyr,console = &usart1;
+		zephyr,shell-uart = &usart1;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+	};
+
+        leds {
+		compatible = "gpio-leds";
+		green_led_0: led_0 {
+			gpios = <&gpiob 5 GPIO_ACTIVE_LOW>;
+			label = "Green LED 0";
+		};
+		red_led_1: led_1 {
+			gpios = <&gpiod 2 GPIO_ACTIVE_LOW>;
+			label = "Red LED 1";
+		};
+		orange_led_2: led_2 {
+			gpios = <&gpioc 10 GPIO_ACTIVE_LOW>;
+			label = "Orange LED 2";
+		};
+	};
+
+	aliases {
+		led0 = &green_led_0;
+		led1 = &red_led_1;
+		led2 = &orange_led_2;
+	};
+};
+
+&clk_hse {
+	clock-frequency = <DT_FREQ_M(16)>;
+	status = "okay";
+};
+
+
+&clk_lse {
+        status = "okay";
+};
+
+&pll {
+	mul = <9>;
+	clocks = <&clk_hse>;
+	status = "okay";
+};
+
+&rcc {
+	clocks = <&pll>;
+	clock-frequency = <DT_FREQ_M(72)>;
+	ahb-prescaler = <1>;
+	apb1-prescaler = <2>;
+	apb2-prescaler = <1>;
+};
+
+&usart1 {
+	pinctrl-0 = <&usart1_tx_pa9 &usart1_rx_pa10>;
+	current-speed = <500000>;
+	status = "okay";
+};
+
+&i2c1 {
+	pinctrl-0 = <&i2c1_scl_pb6 &i2c1_sda_pb7>;
+	status = "okay";
+        clock-frequency = <I2C_BITRATE_FAST>;
+
+        lsm303dlhc-magn@1e {
+                compatible = "st,lsm303dlhc-magn";
+                reg = <0x1e>;
+                label = "LSM303DLHC-MAGN";
+        };
+
+        lsm303dlhc-accel@19 {
+                compatible = "st,lis2dh", "st,lsm303dlhc-accel";
+                reg = <0x19>;
+                irq-gpios = <&gpiob 6 GPIO_ACTIVE_HIGH>,
+                          <&gpiob 7 GPIO_ACTIVE_HIGH>;
+                label = "LSM303DLHC-ACCEL";
+        };
+};
+
+&spi1 {
+	pinctrl-0 = <&spi1_sck_master_pa5 &spi1_miso_master_pa6 &spi1_mosi_master_pa7>;
+	status = "okay";
+};
+
+&spi2 {
+	pinctrl-0 = <&spi2_sck_master_pb13 &spi2_miso_master_pb14 &spi2_mosi_master_pb15>;
+	status = "okay";
+};
+
+&adc1 {
+	pinctrl-0 = <&adc1_in12_pc2>;
+	status = "okay";
+};
+
+ext1_spi: &spi1 {
+};
+

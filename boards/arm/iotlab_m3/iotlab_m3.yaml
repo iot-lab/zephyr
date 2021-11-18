@@ -1,0 +1,18 @@
+identifier: iotlab_m3
+name: IoT-LAB M3 Board
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+ram: 64
+flash: 256
+supported:
+  - gpio
+  - i2c
+  - spi
+  - pwm
+  - watchdog
+  - adc
+  - lsm303dlhc

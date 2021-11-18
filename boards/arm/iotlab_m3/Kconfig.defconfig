@@ -1,0 +1,8 @@
+# IoT-LAB M3 board configuration
+
+if BOARD_IOTLAB_M3
+
+config BOARD
+	default "iotlab_m3"
+
+endif # BOARD_IOTLAB_M3
