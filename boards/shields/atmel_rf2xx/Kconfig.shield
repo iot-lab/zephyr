@@ -18,6 +18,3 @@ config SHIELD_ATMEL_RF2XX_LEGACY
 
 config SHIELD_ATMEL_RF2XX_XPLAINED
 	def_bool $(shields_list_contains,atmel_rf2xx_xplained)
-
-config SHIELD_ATMEL_RF2XX_IOTLAB
-        def_bool $(shields_list_contains,atmel_rf2xx_iotlab)
